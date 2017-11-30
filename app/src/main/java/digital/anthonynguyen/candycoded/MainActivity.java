@@ -1,6 +1,7 @@
 package digital.anthonynguyen.candycoded;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 //        This is where the list is built
 
 //        candy_list is the actual list data, it is an ArrayList
-        ArrayList<String> candy_list = new ArrayList<String>();
+        final ArrayList<String> candy_list = new ArrayList<String>();
 
         candy_list.add("Tropical Wave");
         candy_list.add("Berry Bouncer");
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         String text = "Hello toast!!11!";
         int duration = Toast.LENGTH_SHORT;
 
+//        Create a Toast with the Toast.makeText() method.
+//        Remember this method takes 3 arguments: the context, a String to display, and the duration.
+
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
 
@@ -78,17 +82,22 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view,
-                                    int i, long l) {
-//                Inside of the onItemClick() callback method, we want to create a Toast with the Toast.makeText() method.
-//                Remember this method takes 3 arguments: the context, a String to display, and the duration.
-                Toast toast = Toast.makeText(MainActivity.this, ""+i, Toast.LENGTH_SHORT).show();
-//                toast.show();
-                                            }
-                                        }
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+//                To create an intent, we use the new keyword with the Intent constructor, and pass it the context
+//                of where we are creating this intent which is inside this MainActivity class, and the component
+//                we want to create, which is the DetailActivity class.
+                Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
 
-        );
+//                Use the putExtra method to insert data into the new class, of which the arguments are a key/value pair
+//                For the value we go back to the original ArrayList and get the position
+                detailIntent.putExtra("candy_name", candy_list.get(i));
+
+//                Then the MainActivity can call another activity using the startActivity() METHOD, which takes
+//                our intent as a PARAMETER.
+                startActivity(detailIntent);
+            }
+        });
 
 
     }
