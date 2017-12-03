@@ -29,4 +29,6 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
 //    Adding the GSON LIBRARY to be able to parse JSON
     compile 'com.google.code.gson:gson:2.8.0'
+//    Adding Picasso Library to be able to cache web images for app use
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

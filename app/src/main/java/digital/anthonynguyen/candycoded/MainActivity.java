@@ -133,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
 //                Clearing the adapter... not sure why Android Studio not picking up "adapter"
                 adapter.clear();
 //                A for loop over the candies array that adds each Candy's name to the adapter
+//                For each object of the class Candy, we're calling this "candy", within the array of "candies"
+//                add each the name of each object "candy" to the adapter which is set above
                 for(Candy candy : candies) {
                     adapter.add(candy.name);
                 }
