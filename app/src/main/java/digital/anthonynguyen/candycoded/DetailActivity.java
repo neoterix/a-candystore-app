@@ -25,6 +25,9 @@ public class DetailActivity extends AppCompatActivity {
         textView.setText(candyName);
 
 //        Getting the rest of the candy data in section 2.9
+//        Creating an IF statement to check if the INTENT has an extra "candy_blahblah" value using the
+//        hasExtra() method. Then uses the getStringExtra() method to get the value and set it equal
+//        to the given VARIABLE
 
         String candyImage = "";
         if (intent.hasExtra("candy_image")) {
@@ -39,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
             candyDesc = intent.getStringExtra("candy_desc");
         }
 
+//        Concatenate a comma and the String to the Log statement
         Log.d("DetailActivity", "Intent data: " + candyImage + ", " + candyPrice + ", " + candyDesc);
     }
 }

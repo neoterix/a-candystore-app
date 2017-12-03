@@ -23,6 +23,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     // Allows us to use the Candy's array throughout the entire class, by declaring it here
+    // it's possible we also need to remove Candy[] from line ~146
     private Candy[] candies;
 
     @Override
@@ -40,22 +41,8 @@ public class MainActivity extends AppCompatActivity {
 //        candy_list is the actual list data, it is an ArrayList
         final ArrayList<String> candy_list = new ArrayList<String>();
 
-        candy_list.add("Loading Contents");
-//        Removing all hardcoded candies so to validate that app is pulling from online API
-//        candy_list.add("Berry Bouncer");
-//        candy_list.add("Grape Gummer");
-//        candy_list.add("Apple of My Eye");
-//        candy_list.add("Much Minty");
-//        candy_list.add("So Fresh");
-//        candy_list.add("Sassy Sandwich Cookie");
-//        candy_list.add("Uni-pop");
-//        candy_list.add("Strawberry Surprise");
-//        candy_list.add("Wish Upon a Star");
-//        candy_list.add("Planetary Pops");
-//        candy_list.add("Watermelon Like Whoa");
-//        candy_list.add("Twist 'n' Shout");
-//        candy_list.add("Bear    y Squad Goals");
-//        candy_list.add("ROYGBIV Spinner");
+        candy_list.add("Loading Candies...");
+//        Removed all hardcoded candies so to validate that app is pulling from online API
 
 //        The ArrayAdapter named "adapter" allows feeding in list items dynamically so that the memory isn't huge
 //        This is "creating an instance of the ArrayAdapter class called 'adapter'"
@@ -103,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
 //                Use the putExtra method to insert data into the new class, of which the arguments are a key/value pair
 //                For the value we go back to the original ArrayList and get the position
+//                ***Also modifying in Section 2.9 to remove because candy_name code below
+
 //                detailIntent.putExtra("candy_name", candy_list.get(i));
 
 //                Modifying in section 2.9 to pass all API data about candies
@@ -137,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
 //                Create an ARRAY of Candy OBJECTS called candies by using the gson object and its
 //                fromJson() METHOD. fromJson() takes the JSON response string from ^^^
+//                Removed Candy[] from this line... section 2.7 - is it because it made the array of candy
+//                objects "candies" a CLASS VARIABLE accessible throughout the MainActivity class?
+
                 candies = gson.fromJson(responseString, Candy[].class);
 //                Clearing the adapter... not sure why Android Studio not picking up "adapter"
                 adapter.clear();
