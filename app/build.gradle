@@ -25,4 +25,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+//    Adding the ASync LIBRARY for adding an Internet API
+    compile 'com.loopj.android:android-async-http:1.4.9'
+//    Adding the GSON LIBRARY to be able to parse JSON
+    compile 'com.google.code.gson:gson:2.8.0'
 }

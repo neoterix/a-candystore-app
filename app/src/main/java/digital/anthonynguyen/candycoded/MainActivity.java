@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,7 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
+
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 //        Setting the text box here
         TextView textView = (TextView)this.findViewById(R.id.text_view_title);
@@ -29,27 +38,28 @@ public class MainActivity extends AppCompatActivity {
 //        candy_list is the actual list data, it is an ArrayList
         final ArrayList<String> candy_list = new ArrayList<String>();
 
-        candy_list.add("Tropical Wave");
-        candy_list.add("Berry Bouncer");
-        candy_list.add("Grape Gummer");
-        candy_list.add("Apple of My Eye");
-        candy_list.add("Much Minty");
-        candy_list.add("So Fresh");
-        candy_list.add("Sassy Sandwich Cookie");
-        candy_list.add("Uni-pop");
-        candy_list.add("Strawberry Surprise");
-        candy_list.add("Wish Upon a Star");
-        candy_list.add("Planetary Pops");
-        candy_list.add("Watermelon Like Whoa");
-        candy_list.add("Twist 'n' Shout");
-        candy_list.add("Bear    y Squad Goals");
-        candy_list.add("ROYGBIV Spinner");
+        candy_list.add("Loading Contents");
+//        Removing all hardcoded candies so to validate that app is pulling from online API
+//        candy_list.add("Berry Bouncer");
+//        candy_list.add("Grape Gummer");
+//        candy_list.add("Apple of My Eye");
+//        candy_list.add("Much Minty");
+//        candy_list.add("So Fresh");
+//        candy_list.add("Sassy Sandwich Cookie");
+//        candy_list.add("Uni-pop");
+//        candy_list.add("Strawberry Surprise");
+//        candy_list.add("Wish Upon a Star");
+//        candy_list.add("Planetary Pops");
+//        candy_list.add("Watermelon Like Whoa");
+//        candy_list.add("Twist 'n' Shout");
+//        candy_list.add("Bear    y Squad Goals");
+//        candy_list.add("ROYGBIV Spinner");
 
 //        The ArrayAdapter named "adapter" allows feeding in list items dynamically so that the memory isn't huge
 //        This is "creating an instance of the ArrayAdapter class called 'adapter'"
 //        "new" is a "keyword"
 //        We are passing "this" and the other layouts AND the data candy_list to the "ArrayAdapter() CONSTRUCTOR"
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this, // this Activity
                 R.layout.list_item_candy,  // overall list layout?
                 R.id.text_view_candy,  // individual list item layout, from within list_item_candy
@@ -96,6 +106,36 @@ public class MainActivity extends AppCompatActivity {
 //                Then the MainActivity can call another activity using the startActivity() METHOD, which takes
 //                our intent as a PARAMETER.
                 startActivity(detailIntent);
+            }
+        });
+
+
+        //        Adding http request capability by creating an AsyncHttpClient OBJECT
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://go.codeschool.com/CandyAPI", new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("AsyncHttpClient", "response = " + responseString);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d("AsyncHttpClient", "response = " + responseString);
+
+//                Create a Gson VARIABLE named "gson", and assign it to the result of calling create()
+//                on a new GsonBuilder() OBJECT using the EMPTY CONSTRUCTOR
+                Gson gson = new GsonBuilder().create();
+
+//                Create an ARRAY of Candy OBJECTS called candies by using the gson object and its
+//                fromJson() METHOD. fromJson() takes the JSON response string from ^^^
+                Candy[] candies = gson.fromJson(responseString, Candy[].class);
+//                Clearing the adapter... not sure why Android Studio not picking up "adapter"
+                adapter.clear();
+//                A for loop over the candies array that adds each Candy's name to the adapter
+                for(Candy candy : candies) {
+                    adapter.add(candy.name);
+                }
+
             }
         });
 
