@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
+    // Allows us to use the Candy's array throughout the entire class, by declaring it here
+    private Candy[] candies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +103,14 @@ public class MainActivity extends AppCompatActivity {
 
 //                Use the putExtra method to insert data into the new class, of which the arguments are a key/value pair
 //                For the value we go back to the original ArrayList and get the position
-                detailIntent.putExtra("candy_name", candy_list.get(i));
+//                detailIntent.putExtra("candy_name", candy_list.get(i));
+
+//                Modifying in section 2.9 to pass all API data about candies
+                detailIntent.putExtra("candy_name", candies[i].name);
+                detailIntent.putExtra("candy_image", candies[i].image);
+                detailIntent.putExtra("candy_price", candies[i].price);
+                detailIntent.putExtra("candy_desc", candies[i].description);
+
 
 //                Then the MainActivity can call another activity using the startActivity() METHOD, which takes
 //                our intent as a PARAMETER.
@@ -128,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
 //                Create an ARRAY of Candy OBJECTS called candies by using the gson object and its
 //                fromJson() METHOD. fromJson() takes the JSON response string from ^^^
-                Candy[] candies = gson.fromJson(responseString, Candy[].class);
+                candies = gson.fromJson(responseString, Candy[].class);
 //                Clearing the adapter... not sure why Android Studio not picking up "adapter"
                 adapter.clear();
 //                A for loop over the candies array that adds each Candy's name to the adapter
